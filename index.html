@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head><meta name="robots" content="noindex, nofollow">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>平山陽洋研究室｜名古屋外国語大学</title>
+<style>
+/* ===================================================================
+   平山陽洋研究室｜名古屋外国語大学
+
+   構成は最初のスタンドアローン版のまま（上部に横並びナビ＋カード）。
+   配色・書体・罫線づかいだけを差し替えている。
+
+   色を変えたいとき   … :root の --accent など
+   本文の行長を変える … :root の --measure
+   =================================================================== */
+
+:root{
+  --paper:#f5f2ea;          /* 生成りの地色 */
+  --paper-clear:#fbf9f4;    /* 一段明るい面（ヘッダー・カード・記入欄） */
+  --paper-sub:#efeade;      /* 現在地の地色 */
+  --ink:#1b2230;            /* 濃紺インク（見出し） */
+  --ink-body:#2b3342;       /* 本文 */
+  --ink-sub:#5a6270;        /* 補助テキスト */
+  --rule:#cfc7b6;           /* 細罫 */
+  --rule-strong:#9c9382;    /* 太罫 */
+  --accent:#7c2f38;         /* 臙脂（唯一のアクセント） */
+
+  --measure:40em;           /* 本文の行長＝全角40字 */
+  --gut:clamp(18px,3.4vw,40px);
+  /* 画面の高さに連動する余白。低い画面では詰まり、高い画面ではゆったりする */
+  --v-lg:clamp(16px,3.2vh,34px);
+  --v-md:clamp(11px,2.2vh,22px);
+  --v-sm:clamp(7px,1.3vh,13px);
+
+  --mincho:"Hiragino Mincho ProN","Hiragino Mincho Pro","Yu Mincho",YuMincho,"Noto Serif JP","Times New Roman",serif;
+  --gothic:"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic","Noto Sans JP",system-ui,sans-serif;
+  --serif-en:Georgia,"Times New Roman",serif;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{
+  font-family:var(--gothic);
+  background:var(--paper);color:var(--ink-body);
+  font-size:16px;line-height:1.85;
+  font-feature-settings:"palt" 1;
+}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+/* 文中に埋め込まれたリンクは色以外の手がかり（下線）を必ず残す。
+   扉・カード・ボタン・ナビは枠線や矢印があるため対象外。 */
+.crumb a,main p a,.site footer a{text-decoration:underline;text-underline-offset:3px}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.hidden{display:none !important}
+
+.skip{position:absolute;left:-9999px;top:0;background:var(--ink);color:#fff;padding:10px 16px;z-index:100}
+.skip:focus{left:0}
+
+/* ===================================================================
+   入口（表紙）
+   =================================================================== */
+#entry{min-height:100vh;min-height:100svh;padding:clamp(16px,3vh,40px) var(--gut);display:flex}
+.cover{flex:1;border:1px solid var(--rule-strong);padding:clamp(14px,2.2vh,26px);display:flex}
+.cover-in{
+  flex:1;border:1px solid var(--rule);
+  padding:clamp(20px,4vh,56px) clamp(18px,4vw,56px);
+  display:flex;flex-direction:column;position:relative;
+}
+.cover-vert{
+  position:absolute;top:clamp(20px,4vh,56px);right:clamp(18px,4vw,56px);
+  writing-mode:vertical-rl;font-family:var(--mincho);
+  font-size:12px;letter-spacing:.42em;color:var(--rule-strong);
+}
+.cover-univ{font-family:var(--serif-en);font-size:11.5px;letter-spacing:.28em;color:var(--ink-sub);text-transform:uppercase;text-align:center}
+.cover-univ-ja{font-family:var(--mincho);font-size:13px;letter-spacing:.5em;color:var(--ink-sub);text-align:center;margin-top:10px}
+#entry h1{
+  font-family:var(--mincho);font-weight:600;
+  font-size:clamp(22px,3.4vw,38px);letter-spacing:.14em;line-height:1.65;
+  color:var(--ink);text-align:center;margin:clamp(18px,4vh,40px) 0 12px;
+}
+.cover-en{font-family:var(--serif-en);font-style:italic;font-size:clamp(12px,1.3vw,15px);letter-spacing:.06em;color:var(--ink-sub);text-align:center}
+.cover-lead{max-width:30em;margin:clamp(16px,3vh,32px) auto 0;font-size:14px;line-height:1.9;color:var(--ink-sub);text-align:center}
+
+.doors{
+  display:flex;align-items:stretch;width:100%;max-width:760px;
+  margin:clamp(20px,4.4vh,44px) auto 0;
+  border-top:2px solid var(--ink);border-bottom:1px solid var(--rule-strong);
+}
+.door{
+  flex:1;display:block;color:var(--ink);text-align:center;
+  padding:clamp(20px,3.4vh,34px) 20px clamp(18px,3vh,30px);
+  border-right:1px solid var(--rule);transition:background .15s ease;
+}
+.door:last-child{border-right:none}
+.door:hover,.door:focus-visible{background:var(--paper-clear);text-decoration:none}
+.door .label{display:block;font-family:var(--serif-en);font-size:11px;letter-spacing:.3em;color:var(--ink-sub);text-transform:uppercase}
+.door .big{display:block;font-family:var(--mincho);font-size:clamp(19px,3vw,26px);letter-spacing:.1em;margin-top:clamp(8px,1.4vh,12px);color:var(--ink)}
+.door .small{display:block;font-size:13px;color:var(--ink-sub);margin-top:8px;line-height:1.75}
+.door .arrow{display:block;margin-top:clamp(9px,1.8vh,16px);color:var(--accent);font-family:var(--serif-en);font-size:13px;letter-spacing:.1em}
+.cover-foot{border-top:1px solid var(--rule);padding-top:14px;font-size:11.5px;letter-spacing:.1em;color:var(--ink-sub);text-align:center}
+
+@media (max-width:860px){
+  .cover-vert{display:none}
+  .doors{flex-direction:column;max-width:100%}
+  .door{border-right:none;border-bottom:1px solid var(--rule);padding:24px 16px}
+  .door:last-child{border-bottom:none}
+}
+
+/* ===================================================================
+   共通レイアウト（上部にヘッダー＋横並びナビ）
+   =================================================================== */
+.site{min-height:100vh;display:flex;flex-direction:column}
+
+header.top{background:var(--paper-clear);border-bottom:1px solid var(--rule)}
+header.top .inner{max-width:1040px;margin:0 auto;padding:var(--v-md) var(--gut) 0}
+header.top .univ{font-family:var(--serif-en);font-size:10.5px;letter-spacing:.26em;color:var(--ink-sub);text-transform:uppercase}
+header.top h1{
+  font-family:var(--mincho);font-weight:600;font-size:clamp(18px,2.2vw,23px);
+  letter-spacing:.1em;margin:5px 0 3px;
+}
+header.top h1 a{color:var(--ink)}
+header.top h1 a:hover{color:var(--accent);text-decoration:none}
+header.top .suben{font-family:var(--serif-en);font-style:italic;font-size:12px;color:var(--ink-sub);margin-bottom:var(--v-sm)}
+
+nav.gnav ul{list-style:none;display:flex;flex-wrap:wrap}
+nav.gnav li{position:relative}
+nav.gnav a{
+  display:block;padding:clamp(7px,1.3vh,11px) 17px;color:var(--ink-body);
+  font-size:15px;letter-spacing:.06em;border-bottom:2px solid transparent;
+}
+nav.gnav a .en{display:block;font-family:var(--serif-en);font-size:9.5px;letter-spacing:.2em;color:var(--ink-sub);text-transform:uppercase;margin-top:1px}
+nav.gnav a:hover{color:var(--accent);text-decoration:none;background:var(--paper-sub)}
+nav.gnav a.active{border-bottom-color:var(--accent);color:var(--ink);font-weight:700}
+nav.gnav a.active .en{color:var(--accent)}
+nav.gnav li ul{
+  display:none;position:absolute;left:0;top:100%;z-index:20;min-width:210px;
+  background:var(--paper-clear);border:1px solid var(--rule);
+}
+nav.gnav li:hover>ul,nav.gnav li:focus-within>ul{display:block}
+nav.gnav li ul li ul{left:100%;top:-1px}
+nav.gnav li ul a{border-bottom:none;padding:10px 16px;font-size:14px}
+nav.gnav li ul li + li{border-top:1px solid var(--rule)}
+nav.gnav li ul a:hover{background:var(--paper-sub)}
+/* 下位ありの目印 */
+nav.gnav li > ul::before{content:none}
+nav.gnav .has-sub > a{position:relative;padding-right:26px}
+nav.gnav .has-sub > a::after{
+  content:"▾";position:absolute;right:9px;top:11px;
+  font-size:10px;color:var(--rule-strong);line-height:1.6;
+}
+nav.gnav .has-sub > a:hover::after,nav.gnav .has-sub > a.active::after{color:var(--accent)}
+
+/* 狭い画面用のメニュー開閉ボタン（PCでは出さない） */
+#menubtn,#menubtn-arc{
+  display:none;font-family:var(--gothic);font-size:14px;letter-spacing:.08em;
+  background:transparent;border:1px solid var(--rule-strong);color:var(--ink);
+  padding:9px 14px;cursor:pointer;align-items:center;gap:9px;min-height:44px;
+  margin:0 0 var(--v-sm);
+}
+#menubtn:hover,#menubtn-arc:hover{background:var(--paper-sub)}
+#menubtn .bars,#menubtn-arc .bars{display:inline-block;width:15px}
+#menubtn .bars i,#menubtn-arc .bars i{display:block;height:1px;background:var(--ink);margin:3px 0}
+
+main{flex:1;width:100%;max-width:1040px;margin:0 auto;padding:var(--v-lg) var(--gut) var(--v-md);
+  display:flex;flex-direction:column}
+
+.crumb{font-size:12.5px;color:var(--ink-sub);letter-spacing:.04em;margin-bottom:var(--v-md)}
+.crumb a{color:var(--ink-sub)}
+.crumb a:hover{color:var(--accent)}
+
+main h2{
+  font-family:var(--mincho);font-weight:600;
+  font-size:clamp(21px,2.7vw,29px);letter-spacing:.12em;color:var(--ink);
+  line-height:1.45;padding-bottom:clamp(8px,1.3vh,13px);border-bottom:2px solid var(--ink);
+}
+main .h2en{
+  font-family:var(--serif-en);font-style:normal;text-transform:uppercase;
+  font-size:11px;letter-spacing:.3em;color:var(--ink-sub);margin-bottom:7px;
+}
+.h2rule{border:0;border-top:1px solid var(--rule);margin:3px 0 var(--v-lg)}
+
+main h3{
+  font-family:var(--mincho);font-weight:600;font-size:17.5px;letter-spacing:.1em;
+  color:var(--ink);margin:var(--v-lg) 0 var(--v-sm);padding-left:11px;border-left:3px solid var(--accent);
+}
+main p{max-width:var(--measure);margin-bottom:var(--v-sm)}
+
+/* ------------------------------------------------------------------
+   改行の制御
+   日本語は文字単位で折り返されるため、意味の切れ目で改行させる。
+   .nb を付けた範囲は途中で切れず、丸ごと次の行へ送られる。
+   ------------------------------------------------------------------ */
+.nb{display:inline-block}
+p,.placeholder,.card span.desc,.cover-lead,.homenote,.door .small{
+  text-wrap:pretty;line-break:strict;
+}
+h1,h2,h3,.card strong,.door .big{text-wrap:balance;line-break:strict}
+/* 導入文は1文で収まるよう、本文より広めに取る */
+.intro{max-width:min(58em,100%)}
+
+/* 記入欄 */
+.placeholder{
+  max-width:var(--measure);background:var(--paper-clear);
+  border:1px dashed var(--rule-strong);padding:var(--v-sm) 16px;margin-bottom:var(--v-md);
+  font-size:14px;color:var(--ink-sub);line-height:1.8;
+}
+.placeholder::before{
+  content:"記入欄";display:block;font-size:10px;letter-spacing:.24em;
+  color:var(--accent);margin-bottom:6px;
+}
+
+/* カード（元の構成のまま／罫線で組み直す） */
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:0;
+  border-top:2px solid var(--ink);border-left:1px solid var(--rule);margin-top:4px}
+.card{
+  display:block;padding:var(--v-md) 17px var(--v-sm);color:var(--ink);
+  border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);
+  transition:background .15s ease;
+}
+.card:hover{background:var(--paper-clear);text-decoration:none}
+.card strong{
+  display:block;font-family:var(--mincho);font-weight:600;
+  font-size:17px;letter-spacing:.08em;color:var(--ink);
+}
+.card .en{display:block;font-family:var(--serif-en);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-sub);margin-top:4px}
+.card span.desc{display:block;font-size:13px;color:var(--ink-sub);margin-top:6px;line-height:1.7}
+.card .arrow{display:block;margin-top:var(--v-sm);color:var(--accent);font-family:var(--serif-en);font-size:12px;letter-spacing:.1em}
+.card:hover strong{color:var(--accent)}
+
+/* Home のカードは、広い画面では1行に収める（1画面に収めるため） */
+@media (min-width:1000px){
+  .cards.six{grid-template-columns:repeat(6,1fr)}
+  .cards.six .card{padding:clamp(5px,1vh,11px) 13px}
+  .cards.six .card strong{font-size:16px}
+  .cards.six .card span.desc{font-size:12px;margin-top:5px}
+}
+.homenote{margin-top:var(--v-sm);margin-bottom:0;font-size:13.5px;color:var(--ink-sub)}
+
+/* News */
+ul.news{list-style:none;max-width:var(--measure);border-top:2px solid var(--ink);border-bottom:1px solid var(--rule-strong)}
+ul.news li{display:flex;gap:20px;padding:var(--v-sm) 2px;font-size:14.5px}
+ul.news li + li{border-top:1px solid var(--rule)}
+ul.news time{font-family:var(--serif-en);font-size:13px;color:var(--ink-sub);white-space:nowrap;letter-spacing:.06em}
+ul.news span{color:var(--ink-sub)}
+
+/* Link */
+ul.links{list-style:none;max-width:var(--measure);border-top:2px solid var(--ink);border-bottom:1px solid var(--rule-strong)}
+ul.links li{padding:var(--v-sm) 2px}
+ul.links li + li{border-top:1px solid var(--rule)}
+ul.links .u{display:block;font-size:12px;color:var(--ink-sub);word-break:break-all;margin-top:2px}
+
+/* アーカイブの入口ボタン */
+.btn{
+  display:block;max-width:var(--measure);text-align:center;color:var(--ink);
+  padding:var(--v-md) 20px var(--v-sm);margin-top:var(--v-md);
+  border-top:2px solid var(--ink);border-bottom:1px solid var(--rule-strong);
+  transition:background .15s ease;
+}
+.btn:hover{background:var(--paper-clear);text-decoration:none}
+.btn .label{display:block;font-family:var(--serif-en);font-size:11px;letter-spacing:.3em;color:var(--ink-sub);text-transform:uppercase}
+.btn .main{display:block;font-family:var(--mincho);font-size:clamp(18px,2.4vw,22px);letter-spacing:.1em;margin-top:10px}
+.btn .u{display:block;font-size:13px;color:var(--ink-sub);margin-top:8px;word-break:break-all}
+.btn .arrow{display:block;margin-top:13px;color:var(--accent);font-family:var(--serif-en);font-size:13px;letter-spacing:.1em}
+
+footer{
+  background:var(--paper-clear);border-top:1px solid var(--rule);
+  font-size:12px;color:var(--ink-sub);letter-spacing:.06em;
+  padding:var(--v-sm) var(--gut);
+}
+footer .fwrap{max-width:1040px;margin:0 auto;display:flex;flex-wrap:wrap;gap:18px;justify-content:space-between}
+
+.page{display:none}
+.page.show{display:flex;flex-direction:column;flex:1;min-height:0}
+/* 最後の記入欄は残りの高さに合わせて少し伸び、「本文が入る面」を示す。
+   伸ばしすぎると間延びするので上限を設けている。 */
+.page.show > .placeholder:last-child{
+  flex:1 1 auto;margin-bottom:0;min-height:0;
+  max-height:clamp(90px,26vh,280px);
+}
+
+/* ===================================================================
+   画面幅ごとの調整
+   =================================================================== */
+@media (max-width:900px){
+  nav.gnav a{padding:10px 13px;font-size:14.5px}
+}
+/* タブレット縦・スマホ：ホバーに頼らず、ボタンで開閉する。
+   閉じている間は本文がすぐ見えるようにする。 */
+@media (max-width:900px){
+  #menubtn,#menubtn-arc{display:flex}
+  header.top .inner{padding-bottom:0}
+  nav.gnav{display:none;border-top:1px solid var(--rule)}
+  nav.gnav.open{display:block}
+  nav.gnav > ul{flex-direction:column}
+  nav.gnav > ul > li + li{border-top:1px solid var(--rule)}
+  nav.gnav a{border-bottom:none;padding:11px 2px}
+  nav.gnav a .en{display:inline;margin-left:10px}
+  nav.gnav a.active{border-bottom:none;color:var(--accent)}
+  nav.gnav li ul{
+    display:block;position:static;border:none;min-width:0;
+    border-left:1px solid var(--rule);margin:0 0 9px 14px;background:transparent;
+  }
+  nav.gnav li ul li + li{border-top:none}
+  nav.gnav li ul a{padding:9px 14px;font-size:13.5px}
+  nav.gnav .has-sub > a{padding-right:2px}
+  nav.gnav .has-sub > a::after{content:none}
+}
+/* タブレット縦：カードは2列にして、縦の長さを半分にする */
+@media (max-width:900px){
+  .cards{grid-template-columns:repeat(2,1fr)}
+  .card{padding:11px 14px 10px}
+  .card .arrow{margin-top:9px}
+  header.top h1{font-size:20px}
+  header.top .suben{font-size:11.5px}
+}
+/* スマホ：2列のまま、文字と余白をさらに詰める（詰めすぎない範囲で） */
+@media (max-width:520px){
+  body{font-size:15.5px}
+  .cards{grid-template-columns:repeat(2,1fr)}
+  .card{padding:11px 12px 10px}
+  .card strong{font-size:15.5px}
+  .card .en{font-size:9px;letter-spacing:.14em}
+  .card span.desc{font-size:12px;margin-top:4px;line-height:1.6}
+  .card .arrow{margin-top:8px;font-size:11px}
+  header.top h1{font-size:19px}
+  main{padding-top:14px}
+  footer .fwrap{flex-direction:column;gap:4px}
+}
+/* ごく狭い画面では1列に戻す（Home の6枚は除く） */
+@media (max-width:360px){
+  .cards{grid-template-columns:1fr}
+  .cards.six{grid-template-columns:repeat(3,1fr)}
+}
+/* スマホの Home：6つの入口を3列2段にして、1画面で全部見えるようにする */
+@media (max-width:900px){
+  .cards.six{grid-template-columns:repeat(3,1fr)}
+  .cards.six .card{padding:12px 9px 10px;text-align:left}
+  .cards.six .card strong{font-size:15px;letter-spacing:.04em}
+  .cards.six .card .en{font-size:8.5px;letter-spacing:.12em;margin-top:3px;line-height:1.5}
+  .cards.six .card span.desc{display:none}   /* 説明文はカードを開けば分かるので省く */
+  .cards.six .card .arrow{margin-top:7px;font-size:11px}
+}
+/* スマホの表紙：枠の内側の余白を詰めて1画面に収める */
+@media (max-width:520px){
+  #entry{padding:10px 12px}
+  .cover{padding:9px}
+  .cover-in{padding:20px 16px 14px}
+  #entry h1{font-size:21px;margin:16px 0 9px;letter-spacing:.1em}
+  .cover-univ{font-size:10px;letter-spacing:.2em}
+  .cover-univ-ja{font-size:11.5px;letter-spacing:.36em;margin-top:7px}
+  .cover-en{font-size:11.5px}
+  .cover-lead{font-size:12.5px;line-height:1.8;margin-top:13px}
+  .doors{margin-top:16px}
+  .door{padding:15px 12px 13px}
+  .door .big{font-size:18px;margin-top:7px}
+  .door .small{font-size:12px;margin-top:6px;line-height:1.65}
+  .door .arrow{margin-top:9px;font-size:12px}
+  .cover-foot{padding-top:11px;font-size:10.5px}
+  /* Home のカード：説明文を1行に収めて縦を短くする */
+  .cards.six .card span.desc{font-size:11.5px;line-height:1.55}
+  .homenote{font-size:12.5px}
+}
+/* 画面の高さが低い端末（旧型スマホ・横向き）向けの追い込み。
+   高さが足りない時だけ効くので、通常の端末の余白は変わらない。 */
+@media (max-height:680px){
+  body{line-height:1.72}
+  header.top .suben{display:none}
+  header.top .univ{font-size:9.5px;letter-spacing:.18em}
+  header.top h1{font-size:17.5px;margin:4px 0 2px}
+  #menubtn,#menubtn-arc{padding:7px 12px;min-height:40px;margin-bottom:6px}
+  main{padding-top:10px}
+  main h2{font-size:19px;padding-bottom:6px}
+  .h2rule{margin-bottom:12px}
+  main p{margin-bottom:6px}
+  .crumb{margin-bottom:9px}
+  .placeholder{padding:8px 12px;margin-bottom:10px}
+  .cards .card{padding:8px 9px 7px}
+  .cards.six .card{padding:7px 8px 6px}
+  .card .arrow{margin-top:6px}
+  ul.news li,ul.links li{padding:7px 2px}
+  .homenote{margin-top:8px;font-size:12px}
+  footer{padding:6px var(--gut)}
+  /* 表紙も同様に */
+  #entry{padding:8px 10px}
+  .cover{padding:7px}
+  .cover-in{padding:14px 14px 10px}
+  #entry h1{font-size:19px;margin:10px 0 6px}
+  .cover-lead{margin-top:9px;font-size:12px}
+  .doors{margin-top:10px}
+  .door{padding:11px 10px 9px}
+  .door .big{font-size:16.5px;margin-top:5px}
+  .door .small{margin-top:4px;font-size:11.5px}
+  .door .arrow{margin-top:6px}
+  .cover-foot{padding-top:8px}
+}
+
+/* さらに画面高が低い端末（〜600px）だけの最終調整 */
+@media (max-height:600px){
+  body{font-size:15px}
+  main p{font-size:14px}
+  .placeholder{font-size:13px;padding:7px 11px;margin-bottom:8px}
+  .homenote{display:none}          /* 同じリンクはフッターにもあるため */
+  .page.show > .placeholder:last-child{flex:0 1 auto;max-height:none}
+  .cards .card{padding:6px 9px 5px}
+  .cards .card span.desc{display:none}
+  .cards .card .en{font-size:8.5px;letter-spacing:.12em;margin-top:2px}
+  .cards .card .arrow{margin-top:5px}
+  .cards.six .card{padding:3px 8px 3px}
+  .cards .card{padding:5px 9px 4px}
+  main{padding-top:7px}
+  footer{padding:5px var(--gut)}
+  .page.show > .placeholder:last-child{flex:0 1 auto;max-height:none}
+  .cards.six .card strong{font-size:14px}
+  main h2{font-size:18px}
+  .h2rule{margin-bottom:10px}
+  .cover-lead{display:none}        /* 表紙は門の見出しだけで意味が通るため */
+}
+
+/* 画面が高い端末では、余白の上限を広げてゆったり見せる */
+@media (min-height:900px){
+  :root{
+    --v-lg:clamp(24px,3.6vh,46px);
+    --v-md:clamp(16px,2.5vh,30px);
+    --v-sm:clamp(10px,1.5vh,18px);
+  }
+  .page.show > .placeholder:last-child{max-height:clamp(120px,26vh,280px)}
+}
+
+@media print{
+  nav.gnav,footer{display:none}
+  body{background:#fff}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">本文へスキップ</a>
+
+<!-- ==================================================================
+     入口（表紙）
+     ================================================================== -->
+<section id="entry" tabindex="-1">
+  <div class="cover">
+    <div class="cover-in">
+      <p class="cover-vert" aria-hidden="true">名古屋外国語大学</p>
+      <p class="cover-univ">Nagoya University of Foreign Studies</p>
+      <p class="cover-univ-ja">名古屋外国語大学</p>
+      <h1><span class="nb">平山陽洋研究室｜</span><span class="nb">名古屋外国語大学</span></h1>
+      <p class="cover-en">Hirayama Akihiro Laboratory</p>
+      <p class="cover-lead"><span class="nb">ご覧になりたい年度を</span><span class="nb">お選びください。</span><span class="nb">2026年までの内容はアーカイブに、</span><span class="nb">2027年以降の内容は</span><span class="nb">新しいページに掲載しています。</span></p>
+
+      <nav class="doors" aria-label="入口">
+        <a class="door" href="#/archive">
+          <span class="label">Archive</span>
+          <span class="big"><span class="nb">〜 2026 (アーカイブ)</span></span>
+          <span class="small">世界教養学科<br>これまでのページ</span>
+          <span class="arrow" aria-hidden="true">──▸</span>
+        </a>
+        <a class="door" href="#/2027/home">
+          <span class="label">Current</span>
+          <span class="big">2027 〜</span>
+          <span class="small">国際教養学科<br>新しいページ</span>
+          <span class="arrow" aria-hidden="true">──▸</span>
+        </a>
+      </nav>
+
+      <p class="cover-foot">名古屋外国語大学</p>
+    </div>
+  </div>
+</section>
+
+<!-- ==================================================================
+     〜 2026（アーカイブ）
+     ================================================================== -->
+<div id="archive" class="site hidden">
+  <header class="top">
+    <div class="inner">
+      <p class="univ">Nagoya University of Foreign Studies</p>
+      <h1><a href="#/"><span class="nb">平山陽洋｜</span><span class="nb">世界教養学科</span></a></h1>
+      <p class="suben">Department of World Liberal Arts</p>
+      <button id="menubtn-arc" type="button" aria-expanded="false" aria-controls="gnavarc">
+        <span class="bars" aria-hidden="true"><i></i><i></i><i></i></span>メニュー
+      </button>
+      <nav class="gnav" id="gnavarc" aria-label="アーカイブナビゲーション"><ul>
+        <li><a href="#/">入口へ戻る<span class="en">Entrance</span></a></li>
+        <li><a href="#/2027/home">2027 〜 のページへ<span class="en">Current site</span></a></li>
+      </ul></nav>
+    </div>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <p class="h2en">Archive</p>
+    <h2>〜 2026（アーカイブ）</h2>
+    <hr class="h2rule">
+    <p class="intro"><span class="nb">2026年までの内容は、</span><span class="nb">これまでのページに掲載しています。</span><span class="nb">下のリンクからご覧ください。</span></p>
+    <a class="btn" href="archive/index.html" target="_blank" rel="noopener">
+      <span class="label">Previous site</span>
+      <span class="main"><span class="nb">これまでのページを開く</span></span>
+      <span class="u">https://archive.aki-hirayama.com/</span>
+      <span class="arrow" aria-hidden="true">──▸</span>
+    </a>
+  </main>
+
+  <footer><div class="fwrap">
+    <span>&copy; <span class="nb">平山陽洋研究室｜</span><span class="nb">名古屋外国語大学</span></span>
+    <span><a href="#/">入口へ戻る</a></span>
+  </div></footer>
+</div>
+
+<!-- ==================================================================
+     2027 〜
+     ================================================================== -->
+<div id="site2027" class="site hidden">
+  <header class="top">
+    <div class="inner">
+      <p class="univ">Nagoya University of Foreign Studies</p>
+      <h1><a href="#/2027/home"><span class="nb">平山陽洋｜</span><span class="nb">国際教養学科</span></a></h1>
+      <p class="suben">Akihiro Hirayama, Department of International Liberal Arts</p>
+      <button id="menubtn" type="button" aria-expanded="false" aria-controls="gnav2027">
+        <span class="bars" aria-hidden="true"><i></i><i></i><i></i></span>メニュー
+      </button>
+      <nav class="gnav" id="gnav2027" aria-label="メインメニュー"><ul>
+        <li><a href="#/2027/home" data-nav="home">Home<span class="en">Home</span></a></li>
+        <li><a href="#/2027/news" data-nav="news">News<span class="en">News</span></a></li>
+        <li class="has-sub">
+          <a href="#/2027/education" data-nav="education">教育<span class="en">Education</span></a>
+          <ul>
+            <li><a href="#/2027/education/development">国際開発</a></li>
+            <li><a href="#/2027/education/migration">移民と社会</a></li>
+            <li class="has-sub">
+              <a href="#/2027/education/literacy">リテラシー</a>
+              <ul>
+                <li><a href="#/2027/education/literacy/english">英語リテラシー</a></li>
+                <li><a href="#/2027/education/literacy/reading">読み解く力</a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li><a href="#/2027/research" data-nav="research">研究<span class="en">Research</span></a></li>
+        <li><a href="#/2027/campuslife" data-nav="campuslife">学生生活<span class="en">Campus Life</span></a></li>
+        <li><a href="#/2027/profile" data-nav="profile">Profile<span class="en">Profile</span></a></li>
+        <li><a href="#/2027/link" data-nav="link">Link<span class="en">Link</span></a></li>
+      </ul></nav>
+    </div>
+  </header>
+
+  <main id="main2027" tabindex="-1">
+
+    <!-- ===== Home ===== -->
+    <section class="page" data-page="home">
+      <p class="h2en">Home</p>
+      <h2>Home</h2>
+      <hr class="h2rule">
+      <p class="intro"><span class="nb">名古屋外国語大学 国際教養学科・</span><span class="nb">平山陽洋研究室のページです。</span><span class="nb">2027年度以降の情報はこちらに掲載します。</span></p>
+      <!-- ▼ ここに研究室の紹介文を記載 ▼ -->
+      <p class="placeholder"><span class="nb">研究室の紹介文をここに記載します。</span></p>
+
+      <div class="cards six">
+        <a class="card" href="#/2027/news"><strong>News</strong><span class="en">News</span><span class="desc"><span class="nb">お知らせ・更新情報</span></span><span class="arrow" aria-hidden="true">──▸</span></a>
+        <a class="card" href="#/2027/education"><strong>教育</strong><span class="en">Education</span><span class="desc"><span class="nb">国際開発／</span><span class="nb">移民と社会／</span><span class="nb">リテラシー</span></span><span class="arrow" aria-hidden="true">──▸</span></a>
+        <a class="card" href="#/2027/research"><strong>研究</strong><span class="en">Research</span><span class="desc"><span class="nb">研究テーマ・業績</span></span><span class="arrow" aria-hidden="true">──▸</span></a>
+        <a class="card" href="#/2027/campuslife"><strong>学生生活</strong><span class="en">Campus Life</span><span class="desc"><span class="nb">ゼミ・活動</span></span><span class="arrow" aria-hidden="true">──▸</span></a>
+        <a class="card" href="#/2027/profile"><strong>Profile</strong><span class="en">Profile</span><span class="desc">経歴</span><span class="arrow" aria-hidden="true">──▸</span></a>
+        <a class="card" href="#/2027/link"><strong>Link</strong><span class="en">Link</span><span class="desc"><span class="nb">関連リンク</span></span><span class="arrow" aria-hidden="true">──▸</span></a>
+      </div>
+
+      <p class="homenote"><span class="nb">2026年までの内容は</span> <span class="nb"><a href="#/archive">〜 2026（アーカイブ）</a></span> <span class="nb">をご覧ください。</span></p>
+    </section>
+
+    <!-- ===== News ===== -->
+    <section class="page" data-page="news">
+      <div class="crumb"><a href="#/2027/home">Home</a> › News</div>
+      <p class="h2en">News</p>
+      <h2>News</h2>
+      <hr class="h2rule">
+      <!-- ▼ ここにお知らせを追加（新しいものを上に）▼ -->
+      <ul class="news">
+        <li><time>0000.00.00</time><span><span class="nb">（ここに更新情報が入ります）</span></span></li>
+        <li><time>0000.00.00</time><span><span class="nb">（ここに更新情報が入ります）</span></span></li>
+        <li><time>0000.00.00</time><span><span class="nb">（ここに更新情報が入ります）</span></span></li>
+      </ul>
+      <p class="placeholder" style="margin-top:22px"><span class="nb">お知らせをここに追加してください。</span></p>
+    </section>
+
+    <!-- ===== 教育 ===== -->
+    <section class="page" data-page="education">
+      <div class="crumb"><a href="#/2027/home">Home</a> › 教育</div>
+      <p class="h2en">Education</p>
+      <h2>教育</h2>
+      <hr class="h2rule">
+      <p class="intro"><span class="nb">担当科目・教育活動の紹介です。</span></p>
+      <div class="cards">
+        <a class="card" href="#/2027/education/development"><strong>国際開発</strong><span class="en">International Development</span><span class="arrow" aria-hidden="true">──▸</span></a>
+        <a class="card" href="#/2027/education/migration"><strong>移民と社会</strong><span class="en">Migration and Society</span><span class="arrow" aria-hidden="true">──▸</span></a>
+        <a class="card" href="#/2027/education/literacy"><strong>リテラシー</strong><span class="en">Literacy</span><span class="desc"><span class="nb">英語リテラシー／</span><span class="nb">読み解く力</span></span><span class="arrow" aria-hidden="true">──▸</span></a>
+      </div>
+    </section>
+
+    <!-- ===== 国際開発 ===== -->
+    <section class="page" data-page="education/development">
+      <div class="crumb"><a href="#/2027/home">Home</a> › <a href="#/2027/education">教育</a> › 国際開発</div>
+      <p class="h2en">International Development</p>
+      <h2>国際開発</h2>
+      <hr class="h2rule">
+      <!-- ▼ ここに科目の内容を記載 ▼ -->
+      <p class="placeholder"><span class="nb">科目概要・授業内容を</span><span class="nb">ここに記載してください。</span></p>
+    </section>
+
+    <!-- ===== 移民と社会 ===== -->
+    <section class="page" data-page="education/migration">
+      <div class="crumb"><a href="#/2027/home">Home</a> › <a href="#/2027/education">教育</a> › 移民と社会</div>
+      <p class="h2en">Migration and Society</p>
+      <h2>移民と社会</h2>
+      <hr class="h2rule">
+      <!-- ▼ ここに科目の内容を記載 ▼ -->
+      <p class="placeholder"><span class="nb">科目概要・授業内容を</span><span class="nb">ここに記載してください。</span></p>
+    </section>
+
+    <!-- ===== リテラシー ===== -->
+    <section class="page" data-page="education/literacy">
+      <div class="crumb"><a href="#/2027/home">Home</a> › <a href="#/2027/education">教育</a> › リテラシー</div>
+      <p class="h2en">Literacy</p>
+      <h2>リテラシー</h2>
+      <hr class="h2rule">
+      <p class="intro"><span class="nb">リテラシーに関する科目の紹介です。</span></p>
+      <div class="cards">
+        <a class="card" href="#/2027/education/literacy/english"><strong>英語リテラシー</strong><span class="en">English Literacy</span><span class="arrow" aria-hidden="true">──▸</span></a>
+        <a class="card" href="#/2027/education/literacy/reading"><strong>読み解く力</strong><span class="en">Critical Reading</span><span class="arrow" aria-hidden="true">──▸</span></a>
+      </div>
+    </section>
+
+    <!-- ===== 英語リテラシー ===== -->
+    <section class="page" data-page="education/literacy/english">
+      <div class="crumb"><a href="#/2027/home">Home</a> › <a href="#/2027/education">教育</a> › <a href="#/2027/education/literacy">リテラシー</a> › 英語リテラシー</div>
+      <p class="h2en">English Literacy</p>
+      <h2>英語リテラシー</h2>
+      <hr class="h2rule">
+      <!-- ▼ ここに科目の内容を記載 ▼ -->
+      <p class="placeholder"><span class="nb">科目概要・授業内容を</span><span class="nb">ここに記載してください。</span></p>
+    </section>
+
+    <!-- ===== 読み解く力 ===== -->
+    <section class="page" data-page="education/literacy/reading">
+      <div class="crumb"><a href="#/2027/home">Home</a> › <a href="#/2027/education">教育</a> › <a href="#/2027/education/literacy">リテラシー</a> › 読み解く力</div>
+      <p class="h2en">Critical Reading</p>
+      <h2>読み解く力</h2>
+      <hr class="h2rule">
+      <!-- ▼ ここに科目の内容を記載 ▼ -->
+      <p class="placeholder"><span class="nb">科目概要・授業内容を</span><span class="nb">ここに記載してください。</span></p>
+    </section>
+
+    <!-- ===== 研究 ===== -->
+    <section class="page" data-page="research">
+      <div class="crumb"><a href="#/2027/home">Home</a> › 研究</div>
+      <p class="h2en">Research</p>
+      <h2>研究</h2>
+      <hr class="h2rule">
+      <!-- ▼ ここに研究テーマ・業績を記載 ▼ -->
+      <p class="placeholder"><span class="nb">研究テーマ・業績・</span><span class="nb">プロジェクトを</span><span class="nb">ここに記載してください。</span></p>
+    </section>
+
+    <!-- ===== 学生生活 ===== -->
+    <section class="page" data-page="campuslife">
+      <div class="crumb"><a href="#/2027/home">Home</a> › 学生生活</div>
+      <p class="h2en">Campus Life</p>
+      <h2>学生生活</h2>
+      <hr class="h2rule">
+      <!-- ▼ ここにゼミ・学生の活動を記載 ▼ -->
+      <p class="placeholder"><span class="nb">ゼミ活動・学生の様子などを</span><span class="nb">ここに記載してください。</span></p>
+    </section>
+
+    <!-- ===== Profile ===== -->
+    <section class="page" data-page="profile">
+      <div class="crumb"><a href="#/2027/home">Home</a> › Profile</div>
+      <p class="h2en">Profile</p>
+      <h2>Profile</h2>
+      <hr class="h2rule">
+      <h3><span class="nb">平山陽洋</span><span class="nb">（ひらやま あきひろ）</span></h3>
+      <p><span class="nb">名古屋外国語大学</span> <span class="nb">国際教養学科</span></p>
+      <!-- ▼ ここに経歴・専門分野・連絡先を記載 ▼ -->
+      <p class="placeholder"><span class="nb">経歴・専門分野・連絡先などを</span><span class="nb">ここに記載してください。</span></p>
+    </section>
+
+    <!-- ===== Link ===== -->
+    <section class="page" data-page="link">
+      <div class="crumb"><a href="#/2027/home">Home</a> › Link</div>
+      <p class="h2en">Link</p>
+      <h2>Link</h2>
+      <hr class="h2rule">
+      <!-- ▼ ここに関連リンクを追加 ▼ -->
+      <ul class="links">
+        <li><a href="archive/index.html" target="_blank" rel="noopener">〜 2026 のページ</a><span class="u">https://archive.aki-hirayama.com/</span></li>
+        <li><a href="https://www.nufs.ac.jp/" target="_blank" rel="noopener">名古屋外国語大学</a><span class="u">https://www.nufs.ac.jp/</span></li>
+      </ul>
+      <p class="placeholder" style="margin-top:22px"><span class="nb">関連リンクをここに追加してください。</span></p>
+    </section>
+
+  </main>
+
+  <footer><div class="fwrap">
+    <span>&copy; <span class="nb">平山陽洋研究室｜</span><span class="nb">名古屋外国語大学</span></span>
+    <span><a href="#/archive">〜 2026（アーカイブ）</a>　<a href="#/">入口へ戻る</a></span>
+  </div></footer>
+</div>
+
+<script>
+(function(){
+  var entry=document.getElementById('entry');
+  var archive=document.getElementById('archive');
+  var site=document.getElementById('site2027');
+  var pages=[].slice.call(site.querySelectorAll('.page'));
+  var navs=[].slice.call(site.querySelectorAll('nav.gnav a[data-nav]'));
+
+  var TITLES={
+    'home':'Home','news':'News','education':'教育',
+    'education/development':'国際開発','education/migration':'移民と社会',
+    'education/literacy':'リテラシー',
+    'education/literacy/english':'英語リテラシー',
+    'education/literacy/reading':'読み解く力',
+    'research':'研究','campuslife':'学生生活','profile':'Profile','link':'Link'
+  };
+
+  function route(){
+    // このサイトは #/ で始まるハッシュだけをページ指定として扱う。
+    // #main のようなページ内アンカーはルーティングの対象外（誤って Home へ飛ぶのを防ぐ）。
+    var raw=location.hash;
+    if(raw===''||raw==='#') raw='#/';
+    if(raw.charAt(1)!=='/') return;
+    var h=raw.replace(/^#\/?/,'');
+    entry.classList.add('hidden');
+    archive.classList.add('hidden');
+    site.classList.add('hidden');
+
+    if(h===''){
+      entry.classList.remove('hidden');
+      document.title='平山陽洋研究室｜名古屋外国語大学';
+    }else if(h==='archive'){
+      archive.classList.remove('hidden');
+      document.title='平山陽洋｜世界教養学科 - 〜 2026（アーカイブ）';
+    }else{
+      site.classList.remove('hidden');
+      var p=h.replace(/^2027\/?/,'');
+      if(!TITLES[p]) p='home';
+      pages.forEach(function(s){s.classList.toggle('show',s.getAttribute('data-page')===p);});
+      var top=p.split('/')[0];
+      navs.forEach(function(a){
+        var on=a.getAttribute('data-nav')===top;
+        a.classList.toggle('active',on);
+        if(a.getAttribute('data-nav')===p){a.setAttribute('aria-current','page');}
+        else{a.removeAttribute('aria-current');}
+      });
+      document.title='平山陽洋｜国際教養学科 - '+TITLES[p];
+    }
+    window.scrollTo(0,0);
+  }
+
+  // 狭い画面のメニュー開閉（PCでは開閉ボタン自体を出していない）
+  [['menubtn','gnav2027'],['menubtn-arc','gnavarc']].forEach(function(pair){
+    var b=document.getElementById(pair[0]), n=document.getElementById(pair[1]);
+    if(!b||!n) return;
+    b.addEventListener('click',function(){
+      var open=n.classList.toggle('open');
+      b.setAttribute('aria-expanded',open?'true':'false');
+      b.lastChild.textContent=open?'閉じる':'メニュー';
+    });
+  });
+  document.addEventListener('keydown',function(e){
+    if(e.key!=='Escape')return;
+    ['gnav2027','gnavarc'].forEach(function(id){
+      var n=document.getElementById(id); if(n) n.classList.remove('open');
+    });
+    ['menubtn','menubtn-arc'].forEach(function(id){
+      var b=document.getElementById(id);
+      if(b){b.setAttribute('aria-expanded','false');b.lastChild.textContent='メニュー';}
+    });
+  });
+
+  window.addEventListener('hashchange',function(){
+    // ページを移ったらメニューは閉じる
+    ['gnav2027','gnavarc'].forEach(function(id){
+      var n=document.getElementById(id); if(n) n.classList.remove('open');
+    });
+    ['menubtn','menubtn-arc'].forEach(function(id){
+      var b=document.getElementById(id);
+      if(b){b.setAttribute('aria-expanded','false');b.lastChild.textContent='メニュー';}
+    });
+    route();
+  });
+  // 「本文へスキップ」は表示中のセクションの <main> にフォーカスを移すだけ。
+  // href のハッシュをそのまま辿らせるとルーターが誤発火するため、既定動作は止める。
+  var skip=document.querySelector('a.skip');
+  if(skip) skip.addEventListener('click',function(e){
+    e.preventDefault();
+    var vis=document.querySelector('.site:not(.hidden)');
+    var t=vis?vis.querySelector('main'):document.getElementById('entry');
+    if(!t) return;
+    t.focus({preventScroll:true});
+    t.scrollIntoView({block:'start'});
+  });
+
+  route();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+/* 旧Wixサイトの書体の代替。
+   Wixの書体(FONTWORKS Rodin / Linotype Helvetica・Avenir)はWixのライセンス上、Wix外で使えないため、
+   太さと字形が最も近い書体に置き換える。Wix側のCSSが指定する書体名に、そのまま代替を割り当てる。 */
+/* 行の高さ: 本物の Rodin は「line-height:normal」で文字サイズの2倍（上88%・下12%・行間100%。実測）。
+   通常スタイルにだけ同じ値を設定する。斜体は本物でも別書体になり1.5倍なので、設定しない。
+   欧文は size-adjust:97.8% で縮めているので、その分を割り戻した値にしている。 */
+/* 和文: 字幅は本物と一致（実測 幅比 1.000） */
+@font-face{font-family:'rodin-light';font-weight:100 900;font-style:normal;
+  ascent-override:88%;descent-override:12%;line-gap-override:100%;
+  src:local('HiraginoSans-W1'),local('Hiragino Sans W1'),url("../assets/fonts/NotoSansJP-Light-subset.ttf") format('truetype')}
+/* 欧文: Hiragino W1 の欧文は本物より約2.3%広いので、欧文の範囲だけ縮めて字幅を合わせる（後に書いた方が優先される） */
+@font-face{font-family:'rodin-light';font-weight:100 900;font-style:normal;size-adjust:97.8%;
+  ascent-override:90%;descent-override:12.27%;line-gap-override:102.25%;
+  unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122;
+  src:local('HiraginoSans-W1'),local('Hiragino Sans W1'),url("../assets/fonts/NotoSansJP-Light-subset.ttf") format('truetype')}
+@font-face{font-family:'helvetica-w01-light';
+  src:local('HelveticaNeue-Light'),local('Helvetica Neue Light'),local('Arial')}
+@font-face{font-family:'helvetica-w01-bold';
+  src:local('Helvetica-Bold'),local('HelveticaNeue-Bold'),local('Arial Bold'),local('Arial-BoldMT')}
+@font-face{font-family:'avenir-lt-w01_35-light1475496';
+  src:local('Avenir-Light'),local('Avenir Light'),local('HelveticaNeue-Light'),local('Segoe UI Light')}
+@font-face{font-family:'avenir-lt-w01_85-heavy1475544';
+  src:local('Avenir-Heavy'),local('Avenir Heavy'),local('HelveticaNeue-Bold'),local('Segoe UI Bold')}
+
+/* 本物の改行位置を固定した段落（取り込み時に <br data-arc-br> を入れたもの）は、それ以外で折り返さない */
+[data-arc-lines], [data-arc-lines] * { white-space: nowrap !important; }
+
+/* 斜体: 本物では Rodin の斜体が無く別書体で表示され、行の高さは文字サイズの1.5倍（実測）。行の高さの上書きをしない */
+@font-face{font-family:'rodin-light';font-weight:100 900;font-style:italic;
+  src:local('HiraginoSans-W1'),local('Hiragino Sans W1'),url("../assets/fonts/NotoSansJP-Light-subset.ttf") format('truetype')}
