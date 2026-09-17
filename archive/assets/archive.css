@@ -24,6 +24,9 @@
 
 /* 本物の改行位置を固定した段落（取り込み時に <br data-arc-br> を入れたもの）は、それ以外で折り返さない */
 [data-arc-lines], [data-arc-lines] * { white-space: nowrap !important; }
+/* ただし文字が拡大される端末などで行が枠からはみ出す段落は、固定をやめて自然に折り返す（archive.js が data-arc-wrap を付ける） */
+[data-arc-lines][data-arc-wrap], [data-arc-lines][data-arc-wrap] * { white-space: normal !important; }
+[data-arc-lines][data-arc-wrap] br[data-arc-br] { display: none; }
 
 /* 斜体: 本物では Rodin の斜体が無く別書体で表示され、行の高さは文字サイズの1.5倍（実測）。行の高さの上書きをしない */
 @font-face{font-family:'rodin-light';font-weight:100 900;font-style:italic;

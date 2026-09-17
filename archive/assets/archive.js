@@ -208,6 +208,28 @@
     });
   })();
 
+  // ---------- 8) 改行位置を固定した段落が収まらない端末では、固定をやめて自然に折り返す ----------
+  // 本物の PC 表示と同じ位置で改行するよう固定しているが、iPad の Safari は文字を少し拡大する（14px → 15px。実機で確認）ため、
+  // 固定したままだと行が右へはみ出して切れる。はみ出した段落だけ、本物の iPad と同じく自然な折り返しに戻す。
+  (function () {
+    var paras = [].slice.call(document.querySelectorAll('[data-arc-lines]'));
+    if (!paras.length) return;
+    function check() {
+      paras.forEach(function (el) {
+        el.removeAttribute('data-arc-wrap');
+        var box = el.getBoundingClientRect(); if (!box.width) return;
+        var rg = document.createRange(); rg.selectNodeContents(el);
+        var right = 0; [].forEach.call(rg.getClientRects(), function (r) { if (r.right > right) right = r.right; });
+        // PC では本物も枠をわずかに（実測 最大8px）越えて表示しているので、それより大きくはみ出した時だけ切り替える
+        if (right > box.right + 12) el.setAttribute('data-arc-wrap', '');
+      });
+    }
+    check();
+    window.addEventListener('load', check);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(check);
+    var t; window.addEventListener('resize', function () { clearTimeout(t); t = setTimeout(check, 150); });
+  })();
+
   // ---------- 2) 横スクロール型ギャラリーの矢印 ----------
   [].forEach.call(document.querySelectorAll('.gallery-horizontal-scroll'), function (sc) {
     var root = sc.closest('.pro-gallery') || sc.parentNode;
